@@ -8,6 +8,9 @@ import {
   DirectSignResponse,
   makeAuthInfoBytes,
 } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {
   AuthExtension,
   BankExtension,
@@ -17,10 +20,7 @@ import {
   QueryClient,
   setupAuthExtension,
   setupBankExtension,
-} from "@cosmjs/stargate";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "stargate-umee";
 
 import { setupWasmExtension, WasmExtension } from "./queries";
 import { SigningCosmWasmClientOptions } from "./signingcosmwasmclient";

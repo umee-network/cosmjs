@@ -19,6 +19,7 @@ import {
   MsgEditValidator,
   MsgUndelegate,
 } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { MsgCreateVestingAccount } from "cosmjs-types/cosmos/vesting/v1beta1/tx";
 import { Any } from "cosmjs-types/google/protobuf/any";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import Long from "long";
@@ -26,6 +27,7 @@ import Long from "long";
 import {
   AminoMsgBeginRedelegate,
   AminoMsgCreateValidator,
+  AminoMsgCreateVestingAccount,
   AminoMsgDelegate,
   AminoMsgDeposit,
   AminoMsgEditValidator,
@@ -57,7 +59,7 @@ function omitDefault<T extends string | number | Long>(input: T): T | undefined 
   }
 
   if (Long.isLong(input)) {
-    return input.isZero() ? undefined : input;
+    return (input as any).isZero() ? undefined : input;
   }
 
   throw new Error(`Got unsupported type '${typeof input}'`);
@@ -514,6 +516,42 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter | "no
     },
     "/cosmos.feegrant.v1beta1.MsgGrantAllowance": "not_supported_by_chain",
     "/cosmos.feegrant.v1beta1.MsgRevokeAllowance": "not_supported_by_chain",
+
+    // vesting
+
+    "/cosmos.vesting.v1beta1.MsgCreateVestingAccount": {
+      aminoType: "cosmos-sdk/MsgCreateVestingAccount",
+      toAmino: ({
+        fromAddress,
+        toAddress,
+        amount,
+        endTime,
+        delayed,
+      }: MsgCreateVestingAccount): AminoMsgCreateVestingAccount["value"] => {
+        return {
+          from_address: fromAddress,
+          to_address: toAddress,
+          amount: [...amount],
+          end_time: endTime.toString(),
+          delayed,
+        };
+      },
+      fromAmino: ({
+        from_address,
+        to_address,
+        amount,
+        end_time,
+        delayed,
+      }: AminoMsgCreateVestingAccount["value"]): MsgCreateVestingAccount => {
+        return {
+          fromAddress: from_address,
+          toAddress: to_address,
+          amount: [...amount],
+          endTime: Long.fromString(end_time),
+          delayed: delayed,
+        };
+      },
+    },
   };
 }
 

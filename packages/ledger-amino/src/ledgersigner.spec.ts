@@ -9,13 +9,13 @@ import {
 } from "@cosmjs/amino";
 import { Secp256k1, Secp256k1Signature, sha256 } from "@cosmjs/crypto";
 import { fromBase64 } from "@cosmjs/encoding";
+import { sleep } from "@cosmjs/utils";
+import Transport from "@ledgerhq/hw-transport";
 import {
   assertIsDeliverTxSuccess as assertIsDeliverTxSuccessStargate,
   calculateFee,
   SigningStargateClient,
-} from "@cosmjs/stargate";
-import { sleep } from "@cosmjs/utils";
-import Transport from "@ledgerhq/hw-transport";
+} from "stargate-umee";
 
 import { LedgerSigner } from "./ledgersigner";
 import {

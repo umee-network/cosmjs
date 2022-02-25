@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromAscii, toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
+import { Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
+import { assert, sleep } from "@cosmjs/utils";
+import { CodeInfoResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
+import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import {
   Account,
   accountFromAny,
@@ -22,11 +26,7 @@ import {
   setupTxExtension,
   TimeoutError,
   TxExtension,
-} from "@cosmjs/stargate";
-import { Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
-import { assert, sleep } from "@cosmjs/utils";
-import { CodeInfoResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
-import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+} from "stargate-umee";
 
 import { JsonObject, setupWasmExtension, WasmExtension } from "./queries";
 
@@ -249,7 +249,7 @@ export class CosmWasmClient {
    * If the transaction is included in a block, a `DeliverTxResponse` is returned. The caller then
    * usually needs to check for execution success or failure.
    */
-  // NOTE: This method is tested against slow chains and timeouts in the @cosmjs/stargate package.
+  // NOTE: This method is tested against slow chains and timeouts in the stargate-umee package.
   // Make sure it is kept in sync!
   public async broadcastTx(
     tx: Uint8Array,

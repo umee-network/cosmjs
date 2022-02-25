@@ -1,10 +1,10 @@
+import { sleep } from "@cosmjs/utils";
 import {
   assertIsDeliverTxSuccess as assertIsDeliverTxSuccessStargate,
   calculateFee,
   SigningStargateClient,
   StargateClient,
-} from "@cosmjs/stargate";
-import { sleep } from "@cosmjs/utils";
+} from "stargate-umee";
 
 import * as constants from "./constants";
 import { debugAccount, logAccountsState, logSendJob } from "./debugging";
